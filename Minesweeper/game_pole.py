@@ -17,6 +17,9 @@ class GamePole:
         self._place_mines_around_count()
 
     def _place_mines(self) -> None:
+        """
+        Размещает мины в игровом поле в случайных местах.
+        """
         mine_counter = 0
         while mine_counter < self.mines:
             row = randint(0, self.size - 1)
@@ -26,6 +29,10 @@ class GamePole:
                 mine_counter += 1
 
     def _place_mines_around_count(self) -> None:
+        """
+        Устанавливает количество мин вокруг каждой клетки, которая не является миной.
+        """
+
         for row in range(self.size):
             for col in range(self.size):
                 if self.pole[row][col].mine == False:
@@ -34,6 +41,12 @@ class GamePole:
                     )
 
     def _count_around_mines(self, row: int, col: int) -> int:
+        """
+        Подсчитывает количество мин вокруг клетки.
+        :param row: строки, в которой находится клетка
+        :param col: столбца, в котором находится клетка
+        :return: количество мин
+        """
         count = 0
         for i in range(max(0, row - 1), min(self.size, row + 2)):
             for j in range(max(0, col - 1), min(self.size, col + 2)):
@@ -42,6 +55,12 @@ class GamePole:
         return count
 
     def _print_cell(self, cell):
+        """
+        Возвращает строковое представление клетки игрового поля,
+        которое может быть использовано для вывода клетки на экран.
+        :param cell: клетка, которую нужно вывести
+        :return: строковое представление клетки
+        """
         if cell.fl_open == False:
             return "#"
         elif cell.mine == True:
@@ -50,10 +69,19 @@ class GamePole:
             return f"{cell.around_mines}"
 
     def show(self) -> None:
+        """
+        Выводит игровое поле на экран.
+        """
         for row in self.pole:
             cell_row = list(map(self._print_cell, row))
             print(" ".join(cell_row))
         print("")
-            
+
     def open_cell(self, row: int, col: int) -> None:
+        """
+        Открывает ячейку (row, col) игрового поля
+        :param row: строка, в которой находится ячейка
+        :param col: столбец, в котором находится ячейка
+        :return: None
+        """
         self.pole[row][col].fl_open = True
